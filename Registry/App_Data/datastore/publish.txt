@@ -1,0 +1,3 @@
+
+{"Name":"sample string 1","Description":"sample string 2","APIendpoint":"sample string 3","NumberOfOperands":"sample string 4","OperandType":"sample string 5"}
+{"Name":"sample string 1","Description":"sample string 7","APIendpoint":"sample string 8","NumberOfOperands":"sample string 9","OperandType":"sample string 0"}
