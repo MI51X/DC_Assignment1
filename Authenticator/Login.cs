@@ -9,7 +9,8 @@ namespace Authenticator {
     internal class Login {
 
         public int log(String name, String password) {
-            string search = name + "=" + password;
+            
+            string search = name.ToLower() + "=" + password;
 
             string reglocraw = Directory.GetCurrentDirectory() + @"\datastore\registration.txt";
             string tokenlocraw = Directory.GetCurrentDirectory() + @"\datastore\token.txt";
@@ -37,6 +38,9 @@ namespace Authenticator {
             } else {
                 return 0;
             }// end of if else
-        }
-    }
-}
+            
+        }//end of log
+
+    }// end of login
+    
+}//end of Authenticator
