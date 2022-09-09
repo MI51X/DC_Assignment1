@@ -17,5 +17,12 @@ namespace Authenticator {
             token = login.log(name, password);
             return token;
         }
+
+        public string Validate(int token, out string status)
+        {
+            Validate validate = new Validate();
+            status = validate.validate(token);
+            return status;
+        }
     }
 }

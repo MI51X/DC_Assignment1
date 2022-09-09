@@ -14,5 +14,8 @@ namespace Authenticator {
         [OperationContract]
         int Login(String name, String password, out int token);
 
+        [OperationContract]
+        string Validate(int token, out string status);
+
     }// end of Interface
 }// end of Authenticator
