@@ -15,7 +15,7 @@ namespace Authenticator {
         
         public string reg(string name, string password) {
             RegisterModel model = new RegisterModel();
-            model.Name = name;
+            model.Name = name.ToLower();
             model.Password = password;
 
             string reglocraw = Directory.GetCurrentDirectory() + @"\datastore\registration.txt";
@@ -25,7 +25,7 @@ namespace Authenticator {
             var data = File.ReadAllLines(reglocraw);
             bool found = false;
             foreach (var line in data) {
-                if (line.Split('=')[0].ToLower().ToLower() == model.Name.ToString()) {
+                if (line.Split('=')[0].ToLower().ToLower() == model.Name) {
                     found = true;
                 }// end of if
             }// end of foreach
