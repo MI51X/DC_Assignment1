@@ -11,6 +11,8 @@ namespace Authenticator {
         [OperationContract]
         String Register(String name, String password, out string result);
 
+        [OperationContract]
+        int Login(String name, String password, out int token);
 
     }// end of Interface
 }// end of Authenticator

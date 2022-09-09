@@ -11,5 +11,11 @@ namespace Authenticator {
             result = register.reg(name, password);
             return result;
         }
+
+        public int Login(string name, string password, out int token) {
+            Login login = new Login();
+            token = login.log(name, password);
+            return token;
+        }
     }
 }

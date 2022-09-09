@@ -18,19 +18,37 @@ namespace Authenticator {
             model.Name = name;
             model.Password = password;
 
-            string loglocraw = Directory.GetCurrentDirectory() + @"\datastore\registration.txt";
+            string reglocraw = Directory.GetCurrentDirectory() + @"\datastore\registration.txt";
 
-            string registrationData = "Name: " + model.Name + " Password: " + model.Password;
+            //string registrationData ="{\"name\"=\""+ model.Name + "\""+ "-\"password\"=\"" +  model.Password +"\"}";
+            string registrationData = model.Name + "=" + model.Password;
 
-            if (!File.Exists(loglocraw)) {
-                FileStream fs = File.Create(loglocraw);
-                File.AppendAllText(loglocraw, Environment.NewLine + registrationData);
+
+            var data = File.ReadAllLines(reglocraw);
+
+            bool found = false;
+
+            for (int i = 0; i < data.Length; i++) {
+                if (data[i] == registrationData) {
+                    found = true;
+                }// end of if
+            }// end of for
+
+            if (!found) {
+                File.AppendAllText(reglocraw, Environment.NewLine + registrationData);
+
                 return "Successfully Generated";
+
             } else {
-                File.AppendAllText(loglocraw, Environment.NewLine + registrationData);
-                return "Successfully Generated";
-            }// end of if 
-            
+                return "Registration already exist";
+            }// end of if else
+
+
+
+
+
+           
+
         }// end of reg
         
     }// end of Register
