@@ -45,13 +45,7 @@ namespace ClientGUI {
                 List<PublishModel> publishModels = new List<PublishModel>();
 
                 foreach (var item in JsonConvert.DeserializeObject<List<PublishModel>>(restResponse.Content)) {
-                    publishModels.Add(item);
-                }
-
-                //list.Items.Add(publishModels);
-
-                foreach (var item in publishModels) {
-                    list.Items.Add("Name: "+item.Name + "\nDescription: " + item.Description + "\nAPIendpoint: " + item.APIendpoint + "\nNumber of Operands: " + item.NumberOfOperands + "\nOperandType: " + item.OperandType + "\n");
+                    list.Items.Add("Name: " + item.Name + "\nDescription: " + item.Description + "\nAPIendpoint: " + item.APIendpoint + "\nNumber of Operands: " + item.NumberOfOperands + "\nOperandType: " + item.OperandType + "\n");
                 }
 
             } catch(Exception e){
