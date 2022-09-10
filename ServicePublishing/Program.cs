@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
 using Registry.Models;
+using Newtonsoft.Json;
 
 
 namespace ServicePublishing {
@@ -18,7 +19,7 @@ namespace ServicePublishing {
 
             int option;// for program options
 
-                Console.WriteLine("Choose an Option to get started \n1.Register\n2.login\n3.Publish service\n");
+                Console.WriteLine("Choose an Option to get started \n1.Register\n2.login\n3.Publish service\n4.Unpublish service\n");
                 option = Int32.Parse(Console.ReadLine());
 
                 var mc = new Program();
@@ -111,6 +112,45 @@ namespace ServicePublishing {
                     else
                     {
                         Console.WriteLine("\nFailed to publish new service!\n");
+                    }
+
+                    break;
+
+                case 4:
+                    Console.WriteLine("\n\n-------------------UNPUBLISH AN EXISTING SERVICE-------------------\n\n");
+
+                    Console.WriteLine("List of existing services and their API endpoints:\n");
+
+                    RestClient restClient1 = new RestClient("http://localhost:54473/");
+                    RestRequest allServices = new RestRequest("api/Registry/allServices", Method.Get);
+
+                    RestResponse allServicesResponse = restClient1.Execute(allServices);
+
+                    List<PublishModel> serviceList = JsonConvert.DeserializeObject<List<PublishModel>>(allServicesResponse.Content);
+
+                    foreach(PublishModel service in serviceList)
+                    {
+                        Console.WriteLine("Service Name: " + service.Name);
+                        Console.WriteLine("API Endpoint: " + service.APIendpoint + "\n");
+                    }
+
+                    Console.WriteLine("\nEnter the requested details of the service to be unpublished.\n");
+                    Console.WriteLine("API Endpoint: ");
+                    string unpublishServiceApiEndpoint = Console.ReadLine();
+
+                    RestRequest restRequest1 = new RestRequest("api/Registry/unpublish/{endpoint}", Method.Delete);
+
+                    restRequest1.AddUrlSegment("endpoint", unpublishServiceApiEndpoint);
+
+                    RestResponse restResponse1 = restClient1.Execute(restRequest1);
+
+                    if (restResponse1.Content != null)
+                    {
+                        Console.WriteLine("\nUnpublished service successfully!\n");
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nFailed to unpublish service!\n");
                     }
 
                     break;
