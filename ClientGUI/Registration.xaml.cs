@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace ClientGUI {
     /// <summary>
@@ -19,6 +20,14 @@ namespace ClientGUI {
     /// </summary>
     public partial class Registration : Window {
         private Interface auth;
+
+        public class Reg {
+            public string status { get; set; }
+        }
+
+        private string name;
+        private string password;
+
         public Registration() {
             InitializeComponent();
             ChannelFactory<Interface> foobFactory;
@@ -32,18 +41,47 @@ namespace ClientGUI {
             }// end of try catch
         }// end of registratiopm class
 
-        private void Register_Click(object sender, RoutedEventArgs e) {
+        private async void Register_Click(object sender, RoutedEventArgs e) {
 
-            string name = NameBox.Text;
-            string password = PasswordBox.Text;
+            Task<Reg> register = new Task<Reg>(Insert);
+            register.Start();
 
-            string result;
+            Loginb.IsEnabled = false;
+            Backb.IsEnabled = false;
+            progress.IsIndeterminate = true;
 
-            auth.Register(name, password, out result);
+            Reg st = await register;
 
-            MessageBox.Show(result);
+            UpdateGUI(st);
 
         }// end of register click
+
+        private Reg Insert() {
+            this.Dispatcher.Invoke((Action)(() => {
+                name = NameBox.Text;
+                password = PasswordBox.Text;
+            }));
+
+            string result;
+            
+            auth.Register(name, password, out result);
+
+            Reg r = new Reg();
+            r.status = result;
+
+            return r;
+
+        } // end of insert
+        
+        private void UpdateGUI(Reg r) {
+            Application.Current.Dispatcher.Invoke(new Action((() => {
+                Loginb.IsEnabled = true;
+                Backb.IsEnabled = true;
+                progress.Dispatcher.Invoke(() => progress.IsIndeterminate = false, DispatcherPriority.Background);
+            })));
+
+            MessageBox.Show(r.status);
+        }
 
         private void Back_Click(object sender, RoutedEventArgs e) {
             MainWindow main = new MainWindow();

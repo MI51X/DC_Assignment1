@@ -32,7 +32,7 @@ namespace ClientGUI {
             this.Close();
         }
 
-        private void Back_Click(object sender, RoutedEventArgs e) {
+        private void Logout_Click(object sender, RoutedEventArgs e) {
 
         }
     }

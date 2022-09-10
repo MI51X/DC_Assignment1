@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace ClientGUI {
     /// <summary>
@@ -20,9 +21,17 @@ namespace ClientGUI {
     public partial class Login : Window {
 
         private Interface auth;
+        
+        public class Token{
+           public int result { get; set; }
+        }
 
+        private string name;
+        private string password;
+        
         public Login() {
             InitializeComponent();
+
             ChannelFactory<Interface> foobFactory;
             NetTcpBinding tcp = new NetTcpBinding();
             string URL = "net.tcp://localhost:8100/Authenticator";
@@ -32,29 +41,65 @@ namespace ClientGUI {
             } catch {
                 MessageBox.Show("Server is offline");
             }// end of try catch
+            
         }// end of login class
 
-        private void Login_Click(object sender, RoutedEventArgs e) {
+        private async void Login_Click(object sender, RoutedEventArgs e) {
+            
+            Task<Token> login = new Task<Token>(LogIn);
+            login.Start();
 
-            string name = NameBox.Text;
-            string password = PasswordBox.Text;
+            Loginb.IsEnabled = false;
+            Backb.IsEnabled = false;
+            progress.IsIndeterminate = true;
 
-            int result;
+            Token res = await login;
+            
+            UpdateGUI(res);
+            
+        }// end of login click
 
-            auth.Login(name, password, out result);
+        private Token LogIn() {
+            try {
+                this.Dispatcher.Invoke((Action)(() => {
+                     name = NameBox.Text;
+                     password = PasswordBox.Text;
+                }));
 
-            //MessageBox.Show(result.ToString());
-            Token tk = new Token();
-            tk.TokenValue = result;
+                    int result;
 
-            if (result != 0) {
-                Dashboard dashboard = new Dashboard(tk.TokenValue);
+                    auth.Login(name, password, out result);
+
+                    Token tk = new Token();
+                    tk.result = result;
+
+                    return tk;
+        
+            } catch(Exception e) {
+                MessageBox.Show(e.Message);
+            }// end of try
+
+            return null;
+            
+        }// end of LogIn
+
+        private void UpdateGUI(Token t) {
+            
+            Application.Current.Dispatcher.Invoke(new Action((() => {
+                Loginb.IsEnabled = true;
+                Backb.IsEnabled = true;
+                progress.Dispatcher.Invoke(() => progress.IsIndeterminate = false, DispatcherPriority.Background);
+            })));
+
+            if (t.result != 0) {
+                Dashboard dashboard = new Dashboard(t.result);
                 dashboard.Show();
                 this.Close();
             } else {
                 MessageBox.Show("Invalid username or password");
-            }// end of if else
-        }// end of login click
+            }// end of if else 
+            
+        }
 
         private void Back_Click(object sender, RoutedEventArgs e) {
             MainWindow main = new MainWindow();

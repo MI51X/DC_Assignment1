@@ -12,7 +12,7 @@
        
         <Button Content="All Services" Margin="34,113,158,0" Click="AllServices_Click" Height="36" VerticalAlignment="Top"/>
         
-        <Button Content="Back" Margin="158,113,34,0" Click="Back_Click" Height="36" VerticalAlignment="Top"/>
+        <Button Content="Log Out" Margin="158,113,34,0" Click="Logout_Click" Height="36" VerticalAlignment="Top"/>
     </Grid>
 
 </Window>
