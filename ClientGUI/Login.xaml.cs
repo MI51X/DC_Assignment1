@@ -43,8 +43,17 @@ namespace ClientGUI {
 
             auth.Login(name, password, out result);
 
-            MessageBox.Show(result.ToString());
-            
+            //MessageBox.Show(result.ToString());
+            Token tk = new Token();
+            tk.TokenValue = result;
+
+            if (result != 0) {
+                Dashboard dashboard = new Dashboard(tk.TokenValue);
+                dashboard.Show();
+                this.Close();
+            } else {
+                MessageBox.Show("Invalid username or password");
+            }// end of if else
         }// end of login click
 
         private void Back_Click(object sender, RoutedEventArgs e) {
