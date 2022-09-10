@@ -18,7 +18,7 @@ namespace ClientGUI {
     /// </summary>
     public partial class Dashboard : Window {
 
-        int localtoken;
+        public int localtoken;
 
         public Dashboard(int token) {
             InitializeComponent();
