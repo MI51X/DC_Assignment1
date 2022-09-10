@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientGUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+         Title="MainWindow" Height="400" Width="300">
+    <Grid RenderTransformOrigin="0.405,0.067" HorizontalAlignment="Center" Width="312" Height="382" VerticalAlignment="Top" >
+        <TextBlock Margin="114,108,114,247" Text="Welcome" FontSize="20" RenderTransformOrigin="0.096,0.557" ></TextBlock>
+
+        <Button Content="Register" Margin="42,184,176,0" Click="Register_Click" Height="36" VerticalAlignment="Top"></Button>
+
+        <Button Content="Login" Margin="176,184,42,0" Click="Login_Click" Height="36" VerticalAlignment="Top" RenderTransformOrigin="0.904,0.501"/>
+
     </Grid>
+
 </Window>
