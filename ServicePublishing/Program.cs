@@ -4,6 +4,9 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using RestSharp;
+using Registry.Models;
+
 
 namespace ServicePublishing {
 
@@ -15,7 +18,7 @@ namespace ServicePublishing {
 
             int option;// for program options
 
-                Console.WriteLine("Choose an Option to get started \n1.Register\n2.login\n");
+                Console.WriteLine("Choose an Option to get started \n1.Register\n2.login\n3.Publish service\n");
                 option = Int32.Parse(Console.ReadLine());
 
                 var mc = new Program();
@@ -70,6 +73,48 @@ namespace ServicePublishing {
                     }                   
 
                     break;
+
+                case 3:
+                    Console.WriteLine("\n\n-------------------PUBLISH A NEW SERVICE-------------------\n\n");
+                    Console.WriteLine("Enter the requested details of the service to be published.\n");
+                   
+                    Console.WriteLine("Service Name: ");
+                    string serviceName = Console.ReadLine();
+                    Console.WriteLine("Description: ");
+                    string serviceDescription = Console.ReadLine();
+                    Console.WriteLine("API Endpoint: ");
+                    string serviceApiEndpoint = Console.ReadLine();
+                    Console.WriteLine("Number of Operands: ");
+                    string serviceNumOperands = Console.ReadLine();
+                    Console.WriteLine("Operand Type: ");
+                    string serviceOperandType = Console.ReadLine();
+
+                    PublishModel publishModel = new PublishModel();
+
+                    publishModel.Name = serviceName;
+                    publishModel.Description = serviceDescription;
+                    publishModel.APIendpoint = serviceApiEndpoint;
+                    publishModel.NumberOfOperands = serviceNumOperands;
+                    publishModel.OperandType = serviceOperandType;
+
+                    RestClient restClient = new RestClient("http://localhost:54473/");
+                    RestRequest restRequest = new RestRequest("api/Registry/publish");
+
+                    restRequest.AddJsonBody(publishModel);
+
+                    RestResponse restResponse = restClient.Post(restRequest);
+
+                    if(restResponse.Content != null)
+                    {
+                        Console.WriteLine("\nPublished new service successfully!\n");
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nFailed to publish new service!\n");
+                    }
+
+                    break;
+
                 default:
                     Console.Write("Invalid Option Selected");
                     break;
