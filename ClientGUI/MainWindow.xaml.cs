@@ -13,16 +13,26 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ClientGUI
-{
+namespace ClientGUI {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
+    public partial class MainWindow : Window {
+        
+        public MainWindow()  {
             InitializeComponent();
+        }
+
+        private void Register_Click(object sender, RoutedEventArgs e) {
+            Registration reg = new Registration();
+            reg.Show();
+            this.Close();
+        }
+
+        private void Login_Click(object sender, RoutedEventArgs e) {
+            Login log = new Login();
+            log.Show();
+            this.Close();
         }
     }
 }

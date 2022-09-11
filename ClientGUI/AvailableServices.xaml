@@ -1,0 +1,14 @@
+﻿<Window x:Class="ClientGUI.AvailableServices"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClientGUI"
+        mc:Ignorable="d"
+        Title="AvailableServices" Height="420" Width="320">
+    <Grid>
+        <TextBlock x:Name="Namet" Margin="27,350,186,10" Text="Name" />
+        <ListBox x:Name="list" Margin="42,28,42,89"></ListBox>
+        <Button Content="Back" Margin="150,340,42,0" Click="Back_Click" Height="36" VerticalAlignment="Top"/>
+    </Grid>
+</Window>

@@ -1,0 +1,20 @@
+﻿<Window x:Class="ClientGUI.Registration"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClientGUI"
+        mc:Ignorable="d"
+        Title="Registration" Height="400" Width="300">
+
+    <Grid Margin="12,108,12,60">
+        <TextBlock Margin="0,0,213,119" Text="Name" />
+        <TextBox x:Name="NameBox" Margin="67,0,6,0" Height="30" VerticalAlignment="Top" />
+        <TextBox x:Name="PasswordBox" Margin="68,53,6,0" RenderTransformOrigin="0.5,0.5" Height="30" VerticalAlignment="Top" />
+        <Button x:Name="Loginb" Content="Register" Margin="160,141,34,0" Click="Register_Click" Height="36" VerticalAlignment="Top" RenderTransformOrigin="-0.134,-0.221"/>
+        <TextBlock Margin="0,55,208,66" Text="Password" />
+        <Button x:Name="Backb" Content="Back" Margin="34,141,158,0" Click="Back_Click" Height="36" VerticalAlignment="Top"/>
+        <ProgressBar x:Name="progress"  Minimum="0" Maximum="100"  Margin="68,101,6,0" RenderTransformOrigin="0.5,0.5" Height="20" VerticalAlignment="Top"  />
+    </Grid>
+
+</Window>
