@@ -16,7 +16,10 @@ namespace Registry.Controllers {
         
         [Route("publish")]
         [HttpPost]
-        public PublishModel Post([FromBody]PublishModel model) {
+        public IHttpActionResult Post(int token, [FromBody]PublishModel model) {
+
+            if (new AuthStatusProvider().AuthStatusCheck(token, out AuthStatusProvider.ResponseModel responseModel) == false) { return Json(responseModel); }
+
             if (ModelState.IsValid) {
 
                 string publocraw = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/datastore/publish.txt");
@@ -25,7 +28,7 @@ namespace Registry.Controllers {
 
                 System.IO.File.AppendAllText(publocraw, Environment.NewLine + json);
                 
-                return model;
+                return Ok(model);
             } else {
                 return null;
             }// end of if else

@@ -17,8 +17,10 @@ namespace Registry.Controllers
         [Route("unpublish/{endpoint}")]
         [Route("unpublish")]
         [HttpDelete]
-        public string Delete(string endpoint)
+        public IHttpActionResult Delete(int token, string endpoint)
         {
+            if (new AuthStatusProvider().AuthStatusCheck(token, out AuthStatusProvider.ResponseModel responseModel) == false) { return Json(responseModel); }
+
             string servicesFileLocation = HttpContext.Current.Server.MapPath("~/App_Data/datastore/publish.txt");
 
             try
@@ -36,20 +38,20 @@ namespace Registry.Controllers
                         string updatedServices = JsonConvert.SerializeObject(service);
                         File.AppendAllText(servicesFileLocation, Environment.NewLine + updatedServices);
                     }
-                    return "Removed rest service description.";
+                    return Ok("Removed rest service description.");
 
                 }else if(deleted == 0)
                 {
-                    return "No rest service with the specified endpoint was found.";
+                    return Ok("No rest service with the specified endpoint was found.");
                 }
                 else
                 {
-                    return "Delete error";
+                    return BadRequest("Delete error");
                 }
             }
             catch
             {
-                return "Delete Error: The text file was empty.";
+                return BadRequest("Delete Error: The text file was empty.");
             }
         }
     }

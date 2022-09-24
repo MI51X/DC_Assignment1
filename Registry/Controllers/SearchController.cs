@@ -17,7 +17,9 @@ namespace Registry.Controllers {
         [Route("search/{searchname}")]
         [Route("search")]
         [HttpGet]
-        public List<PublishModel> Get(String searchname) {
+        public IHttpActionResult Get(int token, String searchname) {
+
+            if (new AuthStatusProvider().AuthStatusCheck(token, out AuthStatusProvider.ResponseModel responseModel) == false) { return Json(responseModel); }
 
             string publocraw = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/datastore/publish.txt");
 
@@ -32,7 +34,7 @@ namespace Registry.Controllers {
                 }// end of if
             }// end of foreach
 
-            return results;
+            return Ok(results);
 
         }// end of get
 
