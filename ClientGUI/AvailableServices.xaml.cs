@@ -40,6 +40,7 @@ namespace ClientGUI {
             try {
                 RestClient restClient = new RestClient(localport);
                 RestRequest restRequest = new RestRequest("api/Registry/allServices", Method.Get);
+                restRequest.AddParameter("token", localtoken);
                 RestResponse restResponse = restClient.Execute(restRequest);
                 
                 List<PublishModel> publishModels = new List<PublishModel>();
@@ -58,6 +59,7 @@ namespace ClientGUI {
 
         private void Back_Click(object sender, RoutedEventArgs e) {
             Dashboard dash = new Dashboard(localtoken);
+            dash.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             dash.Show();
             this.Close();
         }

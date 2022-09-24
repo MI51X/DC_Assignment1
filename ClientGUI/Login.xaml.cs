@@ -93,6 +93,7 @@ namespace ClientGUI {
 
             if (t.result != 0) {
                 Dashboard dashboard = new Dashboard(t.result);
+                dashboard.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 dashboard.Show();
                 this.Close();
             } else {
@@ -103,6 +104,7 @@ namespace ClientGUI {
 
         private void Back_Click(object sender, RoutedEventArgs e) {
             MainWindow main = new MainWindow();
+            main.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             main.Show();
             this.Close();
         }

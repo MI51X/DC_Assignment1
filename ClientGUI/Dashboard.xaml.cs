@@ -28,12 +28,14 @@ namespace ClientGUI {
 
         private void AllServices_Click(object sender, RoutedEventArgs e) {
             AvailableServices avail = new AvailableServices(localtoken);
+            avail.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             avail.Show();
             this.Close();
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e) {
             MainWindow main = new MainWindow();
+            main.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             main.Show();
             this.Close();
         }
