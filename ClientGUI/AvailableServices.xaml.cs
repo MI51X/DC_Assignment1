@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static ClientGUI.SearchService;
 
 namespace ClientGUI {
     /// <summary>
@@ -21,17 +22,16 @@ namespace ClientGUI {
     /// </summary>
     public partial class AvailableServices : Window {
 
-        public class PublishModel {
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public string APIendpoint { get; set; }
-            public string NumberOfOperands { get; set; }
-            public string OperandType { get; set; }
+        public class ResponseModel {
+            public string Status { get; set; }
+            public string Reason { get; set; }
         }
 
         int localtoken;
         
         string localport = "http://localhost:54473/";
+
+        List<PublishModel> serviceList = new List<PublishModel>();
 
         public AvailableServices(int token) {
             InitializeComponent();
@@ -54,19 +54,35 @@ namespace ClientGUI {
                 restRequest.AddParameter("token", localtoken);
                 RestResponse restResponse = restClient.Execute(restRequest);
 
-                List<PublishModel> publishModels = new List<PublishModel>();
-                
-                Application.Current.Dispatcher.Invoke(new Action((() => {
-                    foreach (var item in JsonConvert.DeserializeObject<List<PublishModel>>(restResponse.Content)) {
-                        list.Items.Add("Name: " + item.Name + "\nDescription: " + item.Description + "\nAPIendpoint: " + item.APIendpoint + "\nNumber of Operands: " + item.NumberOfOperands + "\nOperandType: " + item.OperandType + "\n");
-                    }
-                })));
-                
+                try {
+                    serviceList = JsonConvert.DeserializeObject<List<PublishModel>>(restResponse.Content);
+                    Application.Current.Dispatcher.Invoke(new Action((() => {
+                        foreach (var item in JsonConvert.DeserializeObject<List<PublishModel>>(restResponse.Content)) {
+                            list.Items.Add("Name: " + item.Name + "\nDescription: " + item.Description + "\nAPIendpoint: " + item.APIendpoint + "\nNumber of Operands: " + item.NumberOfOperands + "\nOperandType: " + item.OperandType + "\n");
+                        }
+                    })));
+                } catch {
+                    MessageBox.Show("Token has timed out plese login again");
+                    Application.Current.Dispatcher.Invoke(new Action((() => {
+                        this.Close();
+                    })));
+                }
 
+               
             } catch (Exception e) {
                 MessageBox.Show(e.Message);
                 return;
             }
+        }
+
+        private void ServiceSelectButton_Click(object sender, RoutedEventArgs e) {
+            int index = list.SelectedIndex;
+            PublishModel selectedService = new PublishModel();
+            selectedService = serviceList[index];
+
+            TestService testService = new TestService(localtoken, selectedService);
+            testService.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            testService.Show();
         }
     }
 }

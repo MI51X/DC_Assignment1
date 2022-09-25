@@ -14,7 +14,7 @@ namespace ServiceProvider.Controllers {
 
         private Interface auth;
 
-        public ResponseModel Get(int token, out ResponseModel response) {
+        public bool AuthStatusCheck(int token, out ResponseModel response) {
 
             ChannelFactory<Interface> foobFactory;
             NetTcpBinding tcp = new NetTcpBinding();
@@ -33,14 +33,14 @@ namespace ServiceProvider.Controllers {
                 rs.Status = "Approved";
                 rs.Reason = "Valid Token";
                 response = rs;
-                return response;
+                return true;
             } else {
                 ResponseModel rs = new ResponseModel();
                 rs.Status = "Denied";
                 rs.Reason = "Authentication Error";
 
                 response = rs;
-                return response;
+                return false;
             }
 
         }// end of get
