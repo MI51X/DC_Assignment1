@@ -24,21 +24,13 @@ namespace ClientGUI {
         public Dashboard(int token) {
             InitializeComponent();
             localtoken = token;
-            Namet.Text = token.ToString();
         }
 
         private void AllServices_Click(object sender, RoutedEventArgs e) {
-
-            progress.Dispatcher.Invoke(() => progress.IsIndeterminate = true, DispatcherPriority.Background);
-
-
             AvailableServices services = new AvailableServices(localtoken) ;
             services.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             services.Show();
-            this.Close();
-
         }
-
 
         private void Logout_Click(object sender, RoutedEventArgs e) {
             MainWindow main = new MainWindow();
@@ -52,7 +44,6 @@ namespace ClientGUI {
             SearchService searchService = new SearchService(localtoken);
             searchService.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             searchService.Show();
-            this.Close();
         }
     }
 }
