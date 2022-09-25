@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientGUI"
         mc:Ignorable="d"
-        Title="SearchService" Height="420" Width="320">
+        Title="Search Service" Height="530" Width="320">
     <Grid>
-        <TextBox Name="ServiceSearchBox" HorizontalAlignment="Left" Height="30" Margin="16,32,0,0" TextWrapping="Wrap" Text="Enter Service Description" VerticalAlignment="Top" Width="206"/>
+        <TextBox Name="ServiceSearchBox" HorizontalAlignment="Left" Height="30" Margin="20,32,0,0" TextWrapping="Wrap" Text="Enter Service Description" VerticalAlignment="Top" Width="203"/>
         <Button Name="ServiceSearchButton" Content="Search" HorizontalAlignment="Left" Margin="230,32,0,0" VerticalAlignment="Top" Width="65" Height="30" Click="ServiceSearchButton_Click"/>
-        <TextBlock Name="ListTextBlock" HorizontalAlignment="Left" Margin="16,92,0,0" TextWrapping="Wrap" Text="List of Search Results :" VerticalAlignment="Top"/>
-        <ListBox Name="ServiceListBox" HorizontalAlignment="Left" Height="200" Margin="16,127,0,0" VerticalAlignment="Top" Width="279"/>
-        <Button x:Name="ServiceSelectButton" Content="Select a Service" HorizontalAlignment="Left" Margin="16,342,0,0" VerticalAlignment="Top" Width="275" Height="30" Click="ServiceSelectButton_Click"/>
+        <TextBlock Name="ListTextBlock" HorizontalAlignment="Left" Margin="20,92,0,0" TextWrapping="Wrap" Text="List of Search Results :" VerticalAlignment="Top" Width="123"/>
+        <ListBox Name="ServiceListBox" HorizontalAlignment="Left" Height="262" Margin="20,127,0,0" VerticalAlignment="Top" Width="275"/>
+        <ProgressBar x:Name="progress"  Minimum="0" Maximum="100"  Margin="20,414,19,0" RenderTransformOrigin="0.5,0.5" Height="20"  VerticalAlignment="Top"  />
+        <Button x:Name="ServiceSelectButton" Content="Select a Service" Margin="20,448,19,0" VerticalAlignment="Top" Height="30" Click="ServiceSelectButton_Click"/>
     </Grid>
 </Window>

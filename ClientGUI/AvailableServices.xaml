@@ -7,9 +7,8 @@
         mc:Ignorable="d"
         Title="AvailableServices" Height="420" Width="320">
     <Grid  RenderTransformOrigin="0.405,0.067" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock x:Name="Namet" Margin="27,350,186,10" Text="Name" />
-        <ListBox x:Name="list" Margin="42,28,42,89"></ListBox>
-        <Button Content="Back" Margin="150,340,42,0" Click="Back_Click" Height="36" VerticalAlignment="Top"/>
-        <ProgressBar x:Name="progress"  Minimum="0" Maximum="100"  Margin="37,3,37,0" RenderTransformOrigin="0.5,0.5" Height="20" VerticalAlignment="Top"  />
+        <TextBlock x:Name="Namet" Margin="27,350,186,10" />
+        <ListBox x:Name="list" Margin="27,28,27,39"></ListBox>
+        <ProgressBar x:Name="progress"  Minimum="0" Maximum="100"  Margin="16,3,16,0" RenderTransformOrigin="0.5,0.5" Height="20" VerticalAlignment="Top"  />
     </Grid>
 </Window>
