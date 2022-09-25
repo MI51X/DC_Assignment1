@@ -10,7 +10,7 @@
         <TextBox Name="ServiceSearchBox" HorizontalAlignment="Left" Height="30" Margin="16,32,0,0" TextWrapping="Wrap" Text="Enter Service Description" VerticalAlignment="Top" Width="206"/>
         <Button Name="ServiceSearchButton" Content="Search" HorizontalAlignment="Left" Margin="230,32,0,0" VerticalAlignment="Top" Width="65" Height="30" Click="ServiceSearchButton_Click"/>
         <TextBlock Name="ListTextBlock" HorizontalAlignment="Left" Margin="16,92,0,0" TextWrapping="Wrap" Text="List of Search Results :" VerticalAlignment="Top"/>
-        <ListBox Name="ServiceListBox" HorizontalAlignment="Left" Height="180" Margin="16,127,0,0" VerticalAlignment="Top" Width="279"/>
-        <Button x:Name="ServiceSelectButton" Content="Select a Service" HorizontalAlignment="Left" Margin="16,320,0,0" VerticalAlignment="Top" Width="279" Height="30" Click="ServiceSelectButton_Click"/>
+        <ListBox Name="ServiceListBox" HorizontalAlignment="Left" Height="200" Margin="16,127,0,0" VerticalAlignment="Top" Width="279"/>
+        <Button x:Name="ServiceSelectButton" Content="Select a Service" HorizontalAlignment="Left" Margin="16,342,0,0" VerticalAlignment="Top" Width="275" Height="30" Click="ServiceSelectButton_Click"/>
     </Grid>
 </Window>

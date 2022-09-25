@@ -26,7 +26,7 @@ namespace ClientGUI
             public string Name { get; set; }
             public string Description { get; set; }
             public string APIendpoint { get; set; }
-            public string NumberOfOperands { get; set; }
+            public int NumberOfOperands { get; set; }
             public string OperandType { get; set; }
         }
 
@@ -45,6 +45,7 @@ namespace ClientGUI
 
         private void ServiceSearchButton_Click(object sender, RoutedEventArgs e)
         {
+            ServiceListBox.Items.Clear();
             RestClient restClient = new RestClient(localPort);
             RestRequest restRequest = new RestRequest("api/registry/search", Method.Get);
             restRequest.AddParameter("searchname", ServiceSearchBox.Text);
@@ -74,6 +75,7 @@ namespace ClientGUI
             selectedService = availableServices[index];
 
             TestService testService = new TestService(localToken, selectedService);
+            testService.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             testService.Show();
         }
     }
