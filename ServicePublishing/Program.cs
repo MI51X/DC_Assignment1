@@ -5,7 +5,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
-using Registry.Models;
+//using Registry.Models;
 using Newtonsoft.Json;
 
 
@@ -14,7 +14,21 @@ namespace ServicePublishing {
     class Program {
 
         private Interface auth;
-        int token;
+        public int token;
+        public class ResponseModel
+        {
+            public string Status { get; set; }
+            public string Reason { get; set; }
+        }
+        public class PublishModel
+        {
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public string APIendpoint { get; set; }
+            public string NumberOfOperands { get; set; }
+            public string OperandType { get; set; }
+        }
+
         static void Main(string[] args) {
 
             var mc = new Program();
@@ -38,7 +52,7 @@ namespace ServicePublishing {
             }// end of try
         }
 
-        private int AuthConn(int option) {
+        public int AuthConn(int option) {
 
             try {
                 ChannelFactory<Interface> foobFactory;
@@ -74,11 +88,11 @@ namespace ServicePublishing {
                     auth.Login(name1, password1,out result1);
 
                     if(result1 != 0) {
-                        //Console.WriteLine(result1);
+                        Console.WriteLine(result1);
                         token = result1;
 
                         Program p = new Program();
-                        p.Publish();
+                        p.Publish(result1);
                     } else {
                         Console.WriteLine("Invalid Name and/or Password");
                     }                   
@@ -94,7 +108,7 @@ namespace ServicePublishing {
 
         }// end of authconn
 
-        private void Publish() {
+        public void Publish(int token) {
 
 
             int option;// for program options
@@ -115,7 +129,7 @@ namespace ServicePublishing {
                     Console.WriteLine("API Endpoint: ");
                     string serviceApiEndpoint = Console.ReadLine();
                     Console.WriteLine("Number of Operands: ");
-                    int serviceNumOperands = Int32.Parse(Console.ReadLine());
+                    string serviceNumOperands = Console.ReadLine();
                     Console.WriteLine("Operand Type: ");
                     string serviceOperandType = Console.ReadLine();
 
@@ -128,17 +142,42 @@ namespace ServicePublishing {
                     publishModel.OperandType = serviceOperandType;
 
                     RestClient restClient = new RestClient("http://localhost:54473/");
-                    RestRequest restRequest = new RestRequest("api/Registry/publish");
+                    RestRequest restRequest = new RestRequest("api/Registry/publish?token="+ token, Method.Post);
 
-                    restRequest.AddJsonBody(publishModel);
+                    /*Console.WriteLine(publishModel.NumberOfOperands);
+                    Console.WriteLine(serviceNumOperands);
+                    Console.WriteLine(token);*/
 
-                    RestResponse restResponse = restClient.Post(restRequest);
+                   // restRequest.AddParameter("token",token);
+                    restRequest.AddJsonBody(JsonConvert.SerializeObject(publishModel));
 
-                    if (restResponse.Content != null) {
-                        Console.WriteLine("\nPublished new service successfully!\n");
-                    } else {
-                        Console.WriteLine("\nFailed to publish new service!\n");
+                    RestResponse restResponse = restClient.Execute(restRequest);
+
+                    if (JsonConvert.DeserializeObject<ResponseModel>(restResponse.Content).Status == "Denied" || JsonConvert.DeserializeObject<ResponseModel>(restResponse.Content).Status == "Authentication Server Offline")
+                    {
+                        Console.WriteLine("\nError: Your authentication token has expired, please log in again.\n");
+                        var mc = new Program();
+                        mc.Menu();
                     }
+
+                    if (restResponse.Content != null)
+                    {
+                        Console.WriteLine("\nPublished new service successfully!\n");
+                        Console.WriteLine(restResponse.Content);
+                        Program p = new Program();
+                        p.Publish(token);
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nFailed to publish new service!\n");
+                        Program p = new Program();
+                        p.Publish(token);
+                    }
+
+                    /*Console.WriteLine("\nPublished new service successfully!\n");
+                    Console.WriteLine(restResponse.Content);
+                    Program p2 = new Program();
+                    p2.Publish(token);*/
 
                     break;
 
@@ -148,7 +187,7 @@ namespace ServicePublishing {
                     Console.WriteLine("List of existing services and their API endpoints:\n");
 
                     RestClient restClient1 = new RestClient("http://localhost:54473/");
-                    RestRequest allServices = new RestRequest("api/Registry/allServices", Method.Get);
+                    RestRequest allServices = new RestRequest("api/Registry/allServices?token=" + token, Method.Get);
 
                     RestResponse allServicesResponse = restClient1.Execute(allServices);
 
@@ -163,16 +202,28 @@ namespace ServicePublishing {
                     Console.WriteLine("API Endpoint: ");
                     string unpublishServiceApiEndpoint = Console.ReadLine();
 
-                    RestRequest restRequest1 = new RestRequest("api/Registry/unpublish/{endpoint}", Method.Delete);
+                    RestRequest restRequest1 = new RestRequest("api/Registry/unpublish/{endpoint}?token=" + token, Method.Delete);
 
+                   // restRequest1.AddParameter("token", token);
                     restRequest1.AddUrlSegment("endpoint", unpublishServiceApiEndpoint);
 
                     RestResponse restResponse1 = restClient1.Execute(restRequest1);
 
+                    /*if (JsonConvert.DeserializeObject<ResponseModel>(restResponse1.Content).Status == "Denied" || JsonConvert.DeserializeObject<ResponseModel>(restResponse1.Content).Status == "Authentication Server Offline")
+                    {
+                        Console.WriteLine("\nError: Your authentication token has expired, please log in again.\n");
+                        var mc = new Program();
+                        mc.Menu();
+                    }*/
+
                     if (restResponse1.Content != null) {
                         Console.WriteLine("\nUnpublished service successfully!\n");
+                        Program p = new Program();
+                        p.Publish(token);
                     } else {
                         Console.WriteLine("\nFailed to unpublish service!\n");
+                        Program p = new Program();
+                        p.Publish(token);
                     }
 
                     break;

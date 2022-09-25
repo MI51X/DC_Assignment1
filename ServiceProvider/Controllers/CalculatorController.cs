@@ -63,5 +63,17 @@ namespace ServiceProvider.Controllers
             return Ok(outputJson);
         }
 
+        /*// GET: [OPERATOR NAME][NUMBER OF INPUTS]
+        [Route("[OPERATOR NAME][NUMBER OF INPUTS]/{num1}/{num2}/{num3}")]
+        [Route("[OPERATOR NAME][NUMBER OF INPUTS]")]
+        [HttpGet]
+        public IHttpActionResult [OPERATOR NAME][NUMBER OF INPUTS](int token, int num1, int num2, int num3)
+        {
+            if (new AuthStatusProvider().AuthStatusCheck(token, out AuthStatusProvider.ResponseModel response) == false) { return Json(response); }
+            OutputJson outputJson = new OutputJson();
+            outputJson.output = [CALCULATION];
+            return Ok(outputJson);
+        }*/
+
     }
 }

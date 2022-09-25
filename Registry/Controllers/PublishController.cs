@@ -29,8 +29,10 @@ namespace Registry.Controllers {
                 System.IO.File.AppendAllText(publocraw, Environment.NewLine + json);
                 
                 return Ok(model);
-            } else {
-                return null;
+            }
+            else
+            {
+                return BadRequest("Model state is invalid.");
             }// end of if else
         }// end of Post
 
