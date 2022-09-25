@@ -14,23 +14,29 @@ namespace ServicePublishing {
     class Program {
 
         private Interface auth;
-
+        int token;
         static void Main(string[] args) {
 
-            int option;// for program options
-
-                Console.WriteLine("Choose an Option to get started \n1.Register\n2.login\n3.Publish service\n4.Unpublish service\n");
-                option = Int32.Parse(Console.ReadLine());
-
-                var mc = new Program();
-
-                try {
-                    mc.AuthConn(option);
-                } catch (Exception a) {
-                    Console.Write(a.Message);
-                }// end of try
+            var mc = new Program();
+            mc.Menu();
+                
 
         }//end of main
+
+         void Menu() {
+            int option;// for program options
+
+            Console.WriteLine("Choose an Option to get started \n1.Register\n2.login\n");
+            option = Int32.Parse(Console.ReadLine());
+
+            var mc = new Program();
+
+            try {
+                mc.AuthConn(option);
+            } catch (Exception a) {
+                Console.Write(a.Message);
+            }// end of try
+        }
 
         private int AuthConn(int option) {
 
@@ -68,17 +74,40 @@ namespace ServicePublishing {
                     auth.Login(name1, password1,out result1);
 
                     if(result1 != 0) {
-                        Console.WriteLine(result1);
+                        //Console.WriteLine(result1);
+                        token = result1;
+
+                        Program p = new Program();
+                        p.Publish();
                     } else {
                         Console.WriteLine("Invalid Name and/or Password");
                     }                   
 
                     break;
 
-                case 3:
+                default:
+                    Console.Write("Invalid Option Selected");
+                    break;
+            }// end of switch 
+
+            return 0;
+
+        }// end of authconn
+
+        private void Publish() {
+
+
+            int option;// for program options
+
+            Console.WriteLine("\n\n\nChoose an Option to get started \n1.Publish service\n2.Unpublish service\n");
+            option = Int32.Parse(Console.ReadLine());
+
+
+            switch (option) {
+                case 1:
                     Console.WriteLine("\n\n-------------------PUBLISH A NEW SERVICE-------------------\n\n");
                     Console.WriteLine("Enter the requested details of the service to be published.\n");
-                   
+
                     Console.WriteLine("Service Name: ");
                     string serviceName = Console.ReadLine();
                     Console.WriteLine("Description: ");
@@ -105,18 +134,15 @@ namespace ServicePublishing {
 
                     RestResponse restResponse = restClient.Post(restRequest);
 
-                    if(restResponse.Content != null)
-                    {
+                    if (restResponse.Content != null) {
                         Console.WriteLine("\nPublished new service successfully!\n");
-                    }
-                    else
-                    {
+                    } else {
                         Console.WriteLine("\nFailed to publish new service!\n");
                     }
 
                     break;
 
-                case 4:
+                case 2:
                     Console.WriteLine("\n\n-------------------UNPUBLISH AN EXISTING SERVICE-------------------\n\n");
 
                     Console.WriteLine("List of existing services and their API endpoints:\n");
@@ -128,8 +154,7 @@ namespace ServicePublishing {
 
                     List<PublishModel> serviceList = JsonConvert.DeserializeObject<List<PublishModel>>(allServicesResponse.Content);
 
-                    foreach(PublishModel service in serviceList)
-                    {
+                    foreach (PublishModel service in serviceList) {
                         Console.WriteLine("Service Name: " + service.Name);
                         Console.WriteLine("API Endpoint: " + service.APIendpoint + "\n");
                     }
@@ -144,25 +169,21 @@ namespace ServicePublishing {
 
                     RestResponse restResponse1 = restClient1.Execute(restRequest1);
 
-                    if (restResponse1.Content != null)
-                    {
+                    if (restResponse1.Content != null) {
                         Console.WriteLine("\nUnpublished service successfully!\n");
-                    }
-                    else
-                    {
+                    } else {
                         Console.WriteLine("\nFailed to unpublish service!\n");
                     }
 
                     break;
 
-                default:
+                    default:
                     Console.Write("Invalid Option Selected");
                     break;
-            }// end of switch 
 
-            return 0;
+            }// end of switch
 
-        }// end of authconn
+        }// end of publish
 
     }// end of program
 }
