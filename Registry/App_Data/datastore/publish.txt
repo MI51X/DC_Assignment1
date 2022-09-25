@@ -1,0 +1,5 @@
+
+{"Name":"AddTwoNumbers","Description":"Adding 2 numbers.","APIendpoint":"api/calculator/addTwoNumbers","NumberOfOperands":"2","OperandType":"Integer"}
+{"Name":"AddThreeNumbers","Description":"Adding 3 numbers.","APIendpoint":"api/calculator/addThreeNumbers","NumberOfOperands":"3","OperandType":"Integer"}
+{"Name":"MultiplyTwoNumbers","Description":"Multiplying 2 numbers.","APIendpoint":"api/calculator/multiplyTwoNumbers","NumberOfOperands":"2","OperandType":"Integer"}
+{"Name":"MultiplyThreeNumbers","Description":"Multiplying 3 numbers.","APIendpoint":"api/calculator/multiplyThreeNumbers","NumberOfOperands":"3","OperandType":"Integer"}
