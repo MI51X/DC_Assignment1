@@ -21,16 +21,19 @@ namespace ClientGUI {
         
         public MainWindow()  {
             InitializeComponent();
+            
         }
 
         private void Register_Click(object sender, RoutedEventArgs e) {
             Registration reg = new Registration();
+            reg.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             reg.Show();
             this.Close();
         }
 
         private void Login_Click(object sender, RoutedEventArgs e) {
             Login log = new Login();
+            log.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             log.Show();
             this.Close();
         }

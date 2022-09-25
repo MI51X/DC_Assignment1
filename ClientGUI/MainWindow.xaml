@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientGUI"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
          Title="MainWindow" Height="400" Width="300">
     <Grid RenderTransformOrigin="0.405,0.067" HorizontalAlignment="Center" Width="312" Height="382" VerticalAlignment="Top" >
         <TextBlock Margin="114,108,114,247" Text="Welcome" FontSize="20" RenderTransformOrigin="0.096,0.557" ></TextBlock>

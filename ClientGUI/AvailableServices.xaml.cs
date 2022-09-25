@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace ClientGUI {
     /// <summary>
@@ -37,27 +38,42 @@ namespace ClientGUI {
             localtoken = token;
             Namet.Text = token.ToString();
 
+            Init();
+        }
+
+        public async void Init() {
+            progress.Dispatcher.Invoke(() => progress.IsIndeterminate = true, DispatcherPriority.Background);
+            Task ls = new Task(LoadServices);
+            ls.Start();
+            await ls;
+            progress.Dispatcher.Invoke(() => progress.IsIndeterminate = false, DispatcherPriority.Background);
+        }
+
+        public void LoadServices() {
             try {
                 RestClient restClient = new RestClient(localport);
-                RestRequest restRequest = new RestRequest("api/Registry/allServices", Method.Get);
+                RestRequest restRequest = new RestRequest("api/Registry/allServices/", Method.Get);
+                restRequest.AddParameter("token", localtoken);
                 RestResponse restResponse = restClient.Execute(restRequest);
-                
+
                 List<PublishModel> publishModels = new List<PublishModel>();
+                
+                Application.Current.Dispatcher.Invoke(new Action((() => {
+                    foreach (var item in JsonConvert.DeserializeObject<List<PublishModel>>(restResponse.Content)) {
+                        list.Items.Add("Name: " + item.Name + "\nDescription: " + item.Description + "\nAPIendpoint: " + item.APIendpoint + "\nNumber of Operands: " + item.NumberOfOperands + "\nOperandType: " + item.OperandType + "\n");
+                    }
+                })));
+                
 
-                foreach (var item in JsonConvert.DeserializeObject<List<PublishModel>>(restResponse.Content)) {
-                    list.Items.Add("Name: " + item.Name + "\nDescription: " + item.Description + "\nAPIendpoint: " + item.APIendpoint + "\nNumber of Operands: " + item.NumberOfOperands + "\nOperandType: " + item.OperandType + "\n");
-                }
-
-            } catch(Exception e){
+            } catch (Exception e) {
                 MessageBox.Show(e.Message);
                 return;
             }
-
-
         }
 
         private void Back_Click(object sender, RoutedEventArgs e) {
             Dashboard dash = new Dashboard(localtoken);
+            dash.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             dash.Show();
             this.Close();
         }
