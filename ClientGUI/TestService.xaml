@@ -1,0 +1,59 @@
+﻿<Window x:Class="ClientGUI.TestService"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClientGUI"
+        mc:Ignorable="d"
+        Title="TestService" Height="420" Width="320">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="16,28,0,0" TextWrapping="Wrap" Text="Service Details :" VerticalAlignment="Top"/>
+        <!--<TextBox Name="ServiceNameBox" Height="30" Margin="18,64,19,0" TextWrapping="Wrap" Text="Service Name" VerticalAlignment="Top"/>
+        <TextBox Name="ServiceDescriptionBox" Height="30" Margin="18,99,19,0" TextWrapping="Wrap" Text="Service Description" VerticalAlignment="Top"/>
+        <TextBox Name="ServiceApiEndpointBox" Height="30" Margin="18,134,19,0" TextWrapping="Wrap" Text="Service API Endpoint" VerticalAlignment="Top"/>
+        <TextBox Name="ServiceOperandTypeBox" Height="30" Margin="18,169,19,0" TextWrapping="Wrap" Text="Service Operand Type" VerticalAlignment="Top"/>-->
+        <TextBlock Name="ServiceNameBox" HorizontalAlignment="Left" Margin="16,53,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top"/>
+        <TextBlock Name="ServiceDescriptionBox" HorizontalAlignment="Left" Margin="16,74,0,0" TextWrapping="Wrap" Text="2" VerticalAlignment="Top"/>
+        <TextBlock Name="ServiceApiEndpointBox" HorizontalAlignment="Left" Margin="16,95,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top"/>
+        <TextBlock Name="ServiceOperandTypeBox" HorizontalAlignment="Left" Margin="16,116,0,0" TextWrapping="Wrap" Text="4" VerticalAlignment="Top"/>
+
+        <Button Name="TestServiceButton" Content="Test Service" Margin="18,342,21,0" VerticalAlignment="Top" Height="30" Click="TestServiceButton_Click"/>
+        <GroupBox Header="Input Numbers" Height="150" Margin="18,141,19,0" VerticalAlignment="Top">
+            <GroupBox.Resources>
+                <Style TargetType='TextBox'>
+                    <Setter Property="Margin" Value="8"/>
+                    <Setter Property="Height" Value="27"/>
+                </Style>
+            </GroupBox.Resources>
+            <ScrollViewer>
+                <StackPanel Name="numStackPanel"/>
+            </ScrollViewer>
+        </GroupBox>
+        <TextBlock Name="AnswerTextBlock" HorizontalAlignment="Left" Margin="18,302,0,0" TextWrapping="Wrap" Text="" FontSize="20" VerticalAlignment="Top" Width="275" Height="30"/>
+        <!--<ListView HorizontalAlignment="Left" Height="72" Margin="18,213,0,0" VerticalAlignment="Top" Width="275">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Label}"/>
+                        <TextBox Text="{Binding Value}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ListBox HorizontalAlignment="Left" Height="100" Margin="18,290,0,0" VerticalAlignment="Top" Width="275">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Key" />
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Label}" FontWeight="Bold" />
+                        <TextBox Grid.Column="1" Text="{Binding Value}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>-->
+
+    </Grid>
+</Window>

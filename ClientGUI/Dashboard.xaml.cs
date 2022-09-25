@@ -46,5 +46,13 @@ namespace ClientGUI {
             main.Show();
             this.Close();
         }
+
+        private void SearchServicesButton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchService searchService = new SearchService(localtoken);
+            searchService.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            searchService.Show();
+            this.Close();
+        }
     }
 }
