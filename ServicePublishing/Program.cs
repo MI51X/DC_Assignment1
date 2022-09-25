@@ -86,7 +86,7 @@ namespace ServicePublishing {
                     Console.WriteLine("API Endpoint: ");
                     string serviceApiEndpoint = Console.ReadLine();
                     Console.WriteLine("Number of Operands: ");
-                    string serviceNumOperands = Console.ReadLine();
+                    int serviceNumOperands = Int32.Parse(Console.ReadLine());
                     Console.WriteLine("Operand Type: ");
                     string serviceOperandType = Console.ReadLine();
 

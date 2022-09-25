@@ -8,7 +8,7 @@ namespace Registry.Models {
         public string Name { get; set; }
         public string Description { get; set; }
         public string APIendpoint { get; set; }
-        public string NumberOfOperands { get; set; }
+        public int NumberOfOperands { get; set; }
         public string OperandType { get; set; }
     }
 }

@@ -31,6 +31,12 @@ namespace ClientGUI
             public string OperandType { get; set; }
         }
 
+        public class ResponseModel
+        {
+            public string Status { get; set; }
+            public string Reason { get; set; }
+        }
+
         int localToken;
 
         string localPort = "http://localhost:54473/";
@@ -66,11 +72,7 @@ namespace ClientGUI
             this.Dispatcher.Invoke((Action)(() => {
                 restRequest.AddParameter("searchname", ServiceSearchBox.Text);
             }));
-            
-            //Application.Current.Dispatcher.Invoke(new Action((() => {
-              
-            //})));
-            
+
             restRequest.AddParameter("token", localToken);
             RestResponse restResponse = restClient.Execute(restRequest);
 
@@ -86,7 +88,22 @@ namespace ClientGUI
                 })));
                 
             } catch(Exception e) {
-                MessageBox.Show("Error: " + restResponse.Content, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ResponseModel errorResponse = JsonConvert.DeserializeObject<ResponseModel>(restResponse.Content);
+                if(errorResponse.Status == "Denied")
+                {
+                    MessageBox.Show("Error: Your authentication token has expired, please log in again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }else if(errorResponse.Status == "Authentication Server Offline")
+                {
+                    MessageBox.Show("Error: The authenticator service is offline, please make sure it's running & log in again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    MessageBox.Show("Error: " + e + "\nServer Response: " + restResponse.Content, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+                Application.Current.Dispatcher.Invoke(new Action((() => {
+                    this.Close();
+                })));
             }
         }
 
