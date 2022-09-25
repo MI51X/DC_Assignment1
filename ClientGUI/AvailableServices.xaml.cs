@@ -63,6 +63,9 @@ namespace ClientGUI {
                     })));
                 } catch {
                     MessageBox.Show("Token has timed out plese login again");
+                    Application.Current.Dispatcher.Invoke(new Action((() => {
+                        this.Close();
+                    })));
                 }
 
                
