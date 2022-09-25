@@ -80,10 +80,25 @@ namespace ClientGUI
 
             RestResponse restResponse = restClient.Execute(restRequest);
 
-            MessageBox.Show("Answer = " + JsonConvert.DeserializeObject<OutputJson>(restResponse.Content).output, "Answer", MessageBoxButton.OK, MessageBoxImage.Information);
+                try
+                {
+                    //MessageBox.Show("Answer = " + JsonConvert.DeserializeObject<OutputJson>(restResponse.Content).output, "Answer", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            
-                AnswerTextBlock.Text = "Answer = " + JsonConvert.DeserializeObject<OutputJson>(restResponse.Content).output;
+                    if(JsonConvert.DeserializeObject<SearchService.ResponseModel>(restResponse.Content).Status == "Denied")
+                    {
+                        MessageBox.Show("Error: Your authentication token has expired, please log in again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                        Application.Current.Dispatcher.Invoke(new Action((() => {
+                            this.Close();
+                        })));
+                    }
+
+                    AnswerTextBlock.Text = "Answer = " + JsonConvert.DeserializeObject<OutputJson>(restResponse.Content).output;
+
+                }catch(Exception e)
+                {
+                    MessageBox.Show("Error: " + e + "\nServer Response: " + restResponse.Content, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }));
            
         }
