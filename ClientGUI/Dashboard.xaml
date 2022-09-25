@@ -8,14 +8,11 @@
         Title="Dashboard" Height="400" Width="300">
 
     <Grid Margin="12,108,12,99"  RenderTransformOrigin="0.405,0.067" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock x:Name="Namet" Margin="0,0,213,119" Text="Name" />
 
-        <Button Content="All Services" Margin="34,113,158,0" Click="AllServices_Click" Height="36" VerticalAlignment="Top"/>
+        <Button Content="All Services" Margin="21,27,151,0" Click="AllServices_Click" Height="36" VerticalAlignment="Top"/>
 
         <Button Content="Log Out" Margin="158,113,34,0" Click="Logout_Click" Height="36" VerticalAlignment="Top"/>
-
-        <ProgressBar x:Name="progress"  Minimum="0" Maximum="100"  Margin="37,69,37,0" RenderTransformOrigin="0.5,0.5" Height="20" VerticalAlignment="Top"  />
-        <Button Content="Search Services" Margin="40,28,108,0" Click="SearchServicesButton_Click" Height="36" VerticalAlignment="Top"/>
+        <Button Content="Search Services" Margin="114,27,34,0" Click="SearchServicesButton_Click" Height="36" VerticalAlignment="Top"/>
     </Grid>
 
 </Window>

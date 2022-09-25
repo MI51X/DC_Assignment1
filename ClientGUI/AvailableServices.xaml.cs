@@ -36,8 +36,6 @@ namespace ClientGUI {
         public AvailableServices(int token) {
             InitializeComponent();
             localtoken = token;
-            Namet.Text = token.ToString();
-
             Init();
         }
 
@@ -69,13 +67,6 @@ namespace ClientGUI {
                 MessageBox.Show(e.Message);
                 return;
             }
-        }
-
-        private void Back_Click(object sender, RoutedEventArgs e) {
-            Dashboard dash = new Dashboard(localtoken);
-            dash.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            dash.Show();
-            this.Close();
         }
     }
 }

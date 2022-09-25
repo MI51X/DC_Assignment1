@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using RestSharp;
 using Newtonsoft.Json;
+using System.Windows.Threading;
 
 namespace ClientGUI
 {
@@ -55,14 +56,24 @@ namespace ClientGUI
             }
         }
 
-        private void TestServiceButton_Click(object sender, RoutedEventArgs e)
+        private async void TestServiceButton_Click(object sender, RoutedEventArgs e)
         {
+            progress.Dispatcher.Invoke(() => progress.IsIndeterminate = true, DispatcherPriority.Background);
+            Task TS = new Task(TService);
+            TS.Start();
+            await TS;
+            progress.Dispatcher.Invoke(() => progress.IsIndeterminate = false, DispatcherPriority.Background);
+        }
+
+        public void TService() {
+            this.Dispatcher.Invoke((Action)(() => {
+
+
             RestClient restClient = new RestClient(serviceProviderPort);
             RestRequest restRequest = new RestRequest(savedPublishModel.APIendpoint, Method.Get);
             restRequest.AddParameter("token", localToken);
 
-            for (int i = 0; i < noOfOperands; i++)
-            {
+            for (int i = 0; i < noOfOperands; i++) {
                 TextBox textBox = (TextBox)this.numStackPanel.FindName("NumTextBox" + (i + 1));
                 restRequest.AddParameter("num" + (i + 1), textBox.Text);
             }
@@ -70,7 +81,11 @@ namespace ClientGUI
             RestResponse restResponse = restClient.Execute(restRequest);
 
             MessageBox.Show("Answer = " + JsonConvert.DeserializeObject<OutputJson>(restResponse.Content).output, "Answer", MessageBoxButton.OK, MessageBoxImage.Information);
-            AnswerTextBlock.Text = "Answer = " + JsonConvert.DeserializeObject<OutputJson>(restResponse.Content).output;
+
+            
+                AnswerTextBlock.Text = "Answer = " + JsonConvert.DeserializeObject<OutputJson>(restResponse.Content).output;
+            }));
+           
         }
     }
 }

@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -43,27 +44,48 @@ namespace ClientGUI
             localToken = token;
         }
 
-        private void ServiceSearchButton_Click(object sender, RoutedEventArgs e)
+        private async void ServiceSearchButton_Click(object sender, RoutedEventArgs e)
         {
-            ServiceListBox.Items.Clear();
+            progress.Dispatcher.Invoke(() => progress.IsIndeterminate = true, DispatcherPriority.Background);
+            Task search = new Task(Search);
+            search.Start();
+
+            await search;
+
+            progress.Dispatcher.Invoke(() => progress.IsIndeterminate = false, DispatcherPriority.Background);
+        }
+
+        public void Search() {
+            this.Dispatcher.Invoke((Action)(() => {
+                ServiceListBox.Items.Clear();
+            }));
+
             RestClient restClient = new RestClient(localPort);
             RestRequest restRequest = new RestRequest("api/registry/search", Method.Get);
-            restRequest.AddParameter("searchname", ServiceSearchBox.Text);
+
+            this.Dispatcher.Invoke((Action)(() => {
+                restRequest.AddParameter("searchname", ServiceSearchBox.Text);
+            }));
+            
+            //Application.Current.Dispatcher.Invoke(new Action((() => {
+              
+            //})));
+            
             restRequest.AddParameter("token", localToken);
             RestResponse restResponse = restClient.Execute(restRequest);
 
-            try
-            {
+            try {
                 availableServices = JsonConvert.DeserializeObject<List<PublishModel>>(restResponse.Content);
-                if (availableServices != null) { ServiceSelectButton.IsEnabled = true; }
+               
                 
-                foreach(var service in availableServices)
-                {
+                Application.Current.Dispatcher.Invoke(new Action((() => {
+                    if (availableServices != null) { ServiceSelectButton.IsEnabled = true; }
+                    foreach (var service in availableServices) {
                     ServiceListBox.Items.Add("Name: " + service.Name + "\nDescription: " + service.Description + "\nAPI Endpoint: " + service.APIendpoint + "\nNumber of Operands: " + service.NumberOfOperands + "\nOperand Type: " + service.OperandType + "\n");
-                }
-            }
-            catch
-            {
+                    }
+                })));
+                
+            } catch(Exception e) {
                 MessageBox.Show("Error: " + restResponse.Content, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
