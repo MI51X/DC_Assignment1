@@ -29,7 +29,7 @@ namespace Registry.Controllers {
             
 
             foreach (PublishModel p in pm) {
-                if (p.Name == searchname) {
+                if (p.Description.ToLower().Contains(searchname.ToLower())) {
                     results.Add(p);
                 }// end of if
             }// end of foreach
