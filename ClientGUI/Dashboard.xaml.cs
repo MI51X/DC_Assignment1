@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace ClientGUI {
     /// <summary>
@@ -27,11 +28,17 @@ namespace ClientGUI {
         }
 
         private void AllServices_Click(object sender, RoutedEventArgs e) {
-            AvailableServices avail = new AvailableServices(localtoken);
-            avail.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            avail.Show();
+
+            progress.Dispatcher.Invoke(() => progress.IsIndeterminate = true, DispatcherPriority.Background);
+
+
+            AvailableServices services = new AvailableServices(localtoken) ;
+            services.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            services.Show();
             this.Close();
+
         }
+
 
         private void Logout_Click(object sender, RoutedEventArgs e) {
             MainWindow main = new MainWindow();
