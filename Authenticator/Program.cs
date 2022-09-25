@@ -5,9 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel;
 using System.Windows;
+using System.IO;
 
 namespace Authenticator {
+
     class Program {
+
         static void Main(string[] args) {
 
             ServiceHost host;
@@ -22,9 +25,20 @@ namespace Authenticator {
             }// end of try catch
 
             Console.WriteLine("Server Online \n");
+
+            Console.Write("Enter timeout for tokens in Minutes: ");
+            int timeout = Convert.ToInt32(Console.ReadLine());
+            Task.Delay(new TimeSpan(0,timeout,0)).ContinueWith(o => { TokenCleaner(); });
+
+            void TokenCleaner() {
+                string TokenLocRaw = Directory.GetCurrentDirectory() + @"\datastore\token.txt";
+                File.WriteAllText(TokenLocRaw, String.Empty);
+                Console.WriteLine("\nSet time elapsed\nTokens wiped");
+            }
+
             Console.ReadLine();
             host.Close();
-            
+
         }// end of Main
 
     }// end of Program
